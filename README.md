@@ -16,3 +16,7 @@ Ideas:
 - Sentiment API to see if your mood matches up with your style of writing
 - ASTROLOGY
 - Plants
+- incorporate sentiment API, joke API, and activity API. After a user input a text (a few words that comes to mind), 
+we perform a sentiment analysis that return positive, negative, or neutral (or perhaps more specific and varied).
+Then we output jokes of corresponding types and suggested activities related to the sentiment of the user. 
+We can also track the change of sentiment of users through a week.
