@@ -15,7 +15,9 @@ Ideas:
 - Car emission calculator based on your model of car and the distance you travel
 - Sentiment API to see if your mood matches up with your style of writing
 - ASTROLOGY
-- Plants
+- Plants. User will submit photo or photos for plant identification. Use one API to identify the plant species, and use another
+API to retrieve facts about that plant. We can also consider using a weather or climate API to figure out its suitability for
+cultivation in a particular climate zone.
 - Incorporate sentiment API, joke API, and activity API. After a user input a text (a few words that comes to mind), 
 we perform a sentiment analysis that return positive, negative, or neutral (or perhaps more specific and varied).
 Then we output jokes of corresponding types and suggested activities related to the sentiment of the user. 
