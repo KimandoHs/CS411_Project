@@ -16,7 +16,10 @@ Ideas:
 - Sentiment API to see if your mood matches up with your style of writing
 - ASTROLOGY
 - Plants
-- incorporate sentiment API, joke API, and activity API. After a user input a text (a few words that comes to mind), 
+- Incorporate sentiment API, joke API, and activity API. After a user input a text (a few words that comes to mind), 
 we perform a sentiment analysis that return positive, negative, or neutral (or perhaps more specific and varied).
 Then we output jokes of corresponding types and suggested activities related to the sentiment of the user. 
 We can also track the change of sentiment of users through a week.
+- Design a personalized carbon emission tracker. Enter different carbon-emitting factors of daily life
+and weigh how much users contribute to the overall carbon-emission every day or in total. Users can also see what
+travel options are best wehn considering carbon emission parameters. They may also view the world-wide carbon-emissions in real time. 
