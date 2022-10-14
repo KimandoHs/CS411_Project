@@ -1,0 +1,3 @@
+Plants:
+https://my.plantnet.org/
+https://data.nal.usda.gov/dataset/usda-plants-database-api-r
