@@ -1,5 +1,11 @@
 CS411 Team Assignment 1 - Proposal
 
+Group Members: 
+Alan Pan - apan128@bu.edu 
+Jack (Haotian) Chen - htc0511@bu.edu
+James Ngo - jameshn@bu.edu
+Cristobal Newman - cjavier@bu.edu
+
 Idea 1: An App regarding plants 
 Users will submit photo or photos for plant identification. We can use one API to identify the plant species, 
 and use another API to retrieve facts about that plant. When a user submits a photo for identification, plants
