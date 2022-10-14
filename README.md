@@ -10,11 +10,11 @@ Brief Summary: Repository for the CS411 Group Project, fall of 2022. Lab Section
 
 Ideas:
 - SpaceAPIs
-- Chess? 
+- Chess API. Users will be able to play moves on a board and be shown games in that position that have been played by prominent players. 
 - Weather API that tells you what clothes you can buy nearby for that weather
 - Car emission calculator based on your model of car and the distance you travel
 - Sentiment API to see if your mood matches up with your style of writing
-- ASTROLOGY
+- Astrology. Just for fun, use data to generate fortunes or fun facts. 
 - Plants. User will submit photo or photos for plant identification. Use one API to identify the plant species, and use another
 API to retrieve facts about that plant. We can also consider using a weather or climate API to figure out its suitability for
 cultivation in a particular climate zone.
