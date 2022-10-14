@@ -1,3 +1,4 @@
 Plants:
 https://my.plantnet.org/
 https://data.nal.usda.gov/dataset/usda-plants-database-api-r
+https://www.programmableweb.com/api/wikipedia-rest-api
