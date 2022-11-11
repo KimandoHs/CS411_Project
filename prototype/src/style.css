@@ -1,0 +1,103 @@
+.center {
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+}
+
+.center2 {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    text-align: center;
+}
+
+.search
+{
+    width: 60%;
+    transform: translateX(33.33%);
+    border: 2px solid #3bd9b9;
+    overflow: auto;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+
+.search input[type="text"]
+{
+    border: 0px;
+    width: 47%;
+    padding: 10px 10px;
+}
+
+.search select
+{
+    border: 0px;
+    width:20%;
+    text-align: center;
+    padding: 9px 0px;
+    float:left;
+    border-radius-top-right: 5px;
+    -moz-border-radius-top-right: 5px;
+    -webkit-border-radius-top-right: 5px;
+    border-radius-bottom-right: 5px;
+    -moz-border-radius-bottom-right: 5px;
+    -webkit-border-radius-bottom-right: 5px;
+    cursor:pointer;
+}
+
+.search input[type="text"]:placeholder-shown:focus
+{
+    outline: 0;
+    opacity: 10%;
+}
+
+.search input[type="text"]:focus
+{
+    outline: 0;
+}
+
+.search input[type="submit"]
+{
+    border:0px solid #3bd9b9;
+    border-right: 1px solid #3bd9b9;
+    border-left: 1px solid #3bd9b9;
+    background: none;
+    background-color: #3bd9b9;
+    color: #fff;
+    float: right;
+    padding:10px;
+    border-radius-top-right: 5px;
+    -moz-border-radius-top-right: 5px;
+    -webkit-border-radius-top-right: 5px;
+    border-radius-bottom-right: 5px;
+    -moz-border-radius-bottom-right: 5px;
+    -webkit-border-radius-bottom-right: 5px;
+    cursor:pointer;
+}
+
+/* ===========================
+   ====== Media Query for Search Box ======
+   =========================== */
+
+@media only screen and (min-width : 150px) and (max-width : 780px)
+{
+{}
+    .search
+    {
+        width: 85%;
+        margin: 0 auto;
+    }
+
+}
+
+/* 2. scale and layout setting at 125% */
+@media (min-width: 1200px), (min-width: 960px) and (-webkit-device-pixel-ratio: 1.25)
+{
+    {}
+    .search {
+        transform:scale(1) translate(33.3333%);
+    }
+
+}
+
