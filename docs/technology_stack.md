@@ -1,0 +1,3 @@
+The technology stack we have decided to go with is react.js on the front-end, with node.js on the back-end. We initially wanted to use python or java for the back-end, which probably would have meant using flask or springboot with javascript on the front-end. Ultimately, we lacked familiarity with these frameworks, and a full-stack framework like Django seemed to have a steep learning curve. 
+
+On the other hand, react seemed to us like a widely used framework with a large community and strong support behind it. The learning curve for react therefore did not seem to be as drastic. Node was largely the same.   
