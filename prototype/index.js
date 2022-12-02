@@ -4,11 +4,63 @@ const cors = require('cors')
 require('dotenv').config()
 const axios = require('axios')
 const app = express()
+const mysql = require('mysql')
+const bodyParser = require('body-parser')
+
+
+
+
+const db = mysql.createPool({
+    host: 'localhost',
+    user: 'root',
+    password: '20010511',
+    database: 'cs411'
+})
+app.use(bodyParser.urlencoded({extended:true}))
 app.use(cors())
+app.use(express.json())
+
+
+// ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+// FLUSH PRIVILEGES;
 
 app.get('/', (req, res) => {
-    res.json('hi')
+
+    res.send("hi");
 })
+
+
+
+app.post('/check_user', (req, res) => {
+
+    //update this part
+    const uid = req.body.uid;
+    const sqlNew = "SELECT userId from user WHERE userId=(?) ";
+
+    db.query(sqlNew, [uid], (err, result) => {
+        res.send(result);
+    })
+})
+
+
+app.post('/insert_user', (req, res) => {
+
+    //update this part
+    const uid = req.body.uid;
+    const name = req.body.name;
+    const email = req.body.email;
+
+
+    const sqlInsert = "INSERT INTO user (userId, name, email) VALUES (?,?,?)";
+
+    db.query(sqlInsert, [uid, name, email], (err, result) => {
+        res.send(result);
+        })
+})
+
+
+
+
 
 app.get('/results', (req, res) => {
     console.log(req.query)
