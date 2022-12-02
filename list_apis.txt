@@ -3,3 +3,7 @@ https://my.plantnet.org/
 https://data.nal.usda.gov/dataset/usda-plants-database-api-r
 https://www.programmableweb.com/api/wikipedia-rest-api
 https://rapidapi.com/rosoemawd/api/house-plants/
+
+
+alternative:
+https://web.plant.id/plant-identification-api/
