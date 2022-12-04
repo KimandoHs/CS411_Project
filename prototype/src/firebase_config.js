@@ -1,7 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
-
 const firebaseConfig = {
     apiKey: "AIzaSyCHczn-Qw9xLUbvKIHzHXxVUkDAdI-YYdE",
     authDomain: "twitter-signin-d20d8.firebaseapp.com",

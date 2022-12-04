@@ -9,17 +9,22 @@ const bodyParser = require('body-parser')
 
 
 
+app.use(cors())
+
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(express.json({limit: '100mb'}))
+app.use(express.urlencoded({ extended: true, limit: '100mb'}))
+
+
+
+
 
 const db = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '20010511',
+    host: 'plants.mysql.database.azure.com',
+    user: 'csadmin@plants',
+    password: process.env.DATABASE_KEY,
     database: 'cs411'
 })
-app.use(bodyParser.urlencoded({extended:true}))
-app.use(cors())
-app.use(express.json())
-
 
 // ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
 // FLUSH PRIVILEGES;
@@ -31,7 +36,50 @@ app.get('/', (req, res) => {
 
 
 
+app.post('/identify', (req, res) => {
+
+    const image64 = req.body.image
+
+
+    const data = {
+        api_key: process.env.IDENTIFY_API,
+        images: [image64], //need a string list!!!!!!!!
+
+        modifiers: ["crops_fast", "similar_images"],
+        plant_language: "en",
+        plant_details: ["common_names",
+            "url",
+            "name_authority",
+            "wiki_description",
+            "taxonomy",
+            "synonyms"],
+    };
+
+    axios.post('https://api.plant.id/v2/identify', data).then(re => {
+        res.send(re.data);
+        console.log('Success:', re.data);
+    }).catch(error => {
+        console.error('Error: ', error)
+    })
+
+
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
 app.post('/check_user', (req, res) => {
+
 
     //update this part
     const uid = req.body.uid;
@@ -42,7 +90,6 @@ app.post('/check_user', (req, res) => {
     })
 })
 
-
 app.post('/insert_user', (req, res) => {
 
     //update this part
@@ -50,13 +97,14 @@ app.post('/insert_user', (req, res) => {
     const name = req.body.name;
     const email = req.body.email;
 
-
     const sqlInsert = "INSERT INTO user (userId, name, email) VALUES (?,?,?)";
 
     db.query(sqlInsert, [uid, name, email], (err, result) => {
         res.send(result);
-        })
+    })
 })
+
+
 
 
 
