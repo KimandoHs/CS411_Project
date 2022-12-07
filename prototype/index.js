@@ -6,6 +6,7 @@ const axios = require('axios')
 const app = express()
 const mysql = require('mysql')
 const bodyParser = require('body-parser')
+var wikipediaParser = require('./WikipediaParser');
 
 
 
@@ -36,6 +37,24 @@ app.get('/', (req, res) => {
 
 
 
+app.post('/wikipedia', (req,res) => {
+
+    const searchText = req.body.searchText;
+
+    wikipediaParser.fetchArticleElements(searchText).then(function(result)
+    {
+       res.send(result);
+
+    }).catch(function(error)
+    {
+        console.log(error);
+    });
+
+})
+
+
+
+
 app.post('/identify', (req, res) => {
 
     const image64 = req.body.image
@@ -61,19 +80,81 @@ app.post('/identify', (req, res) => {
     }).catch(error => {
         console.error('Error: ', error)
     })
-
-
-
-
 })
 
 
 
 
+app.post('/check_fav', (req,res) => {
+    const obj = req.body.obj;
+    const uid = req.body.uid;
+    const sqlNew = "SELECT * from plant_collection WHERE (uid=(?) AND plant_name=(?))";
+
+    db.query(sqlNew, [uid,obj.name], (err, result) => {
+        res.send(result);
+    })
+})
 
 
+app.post('/insert_fav', (req,res) => {
+    const uid = req.body.uid;
+    const suggestObj = req.body.obj;
+    const plant_name = suggestObj.name;
+    const date =  new Date().toUTCString();
+    const add_date = Date(date);
+    const image_url = suggestObj.img
+    const sci_name = suggestObj.sci_name;
+    const plant_class = suggestObj.class;
+    const family = suggestObj.family;
+    const genus = suggestObj.genus;
+    const kingdom = suggestObj.kingdom;
+    const order = suggestObj.order;
+    const phylum = suggestObj.phylum;
+    const info = suggestObj.info
+    console.log(info)
+
+    const sqlNew = "INSERT INTO plant_collection VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
 
+    db.query(sqlNew, [uid,plant_name,add_date,sci_name,plant_class,
+            family,genus,kingdom,order,phylum,info], (err, result) => {
+        res.send(result);
+    })
+})
+
+
+app.post('/check_image', (req,res) => {
+
+    const plant_name = req.body.name;
+
+    const image_url = req.body.url
+
+
+    const sql1 = "SELECT * FROM plant_image WHERE (plant_name = ? AND image_url = ?)"
+
+    db.query(sql1, [plant_name,image_url], (err1, result1) => {
+        res.send(result1)
+
+    })
+
+})
+
+
+app.post('/insert_image', (req,res) => {
+
+    const plant_name = req.body.name;
+
+    const image_url = req.body.url
+
+
+    const sql1 = "INSERT INTO plant_image (plant_name, image_url) VALUES (?,?)"
+
+    db.query(sql1, [plant_name,image_url], (err1, result1) => {
+        res.send(result1)
+
+    })
+
+})
 
 
 
@@ -83,7 +164,7 @@ app.post('/check_user', (req, res) => {
 
     //update this part
     const uid = req.body.uid;
-    const sqlNew = "SELECT userId from user WHERE userId=(?) ";
+    const sqlNew = "SELECT * from user WHERE uid=(?) ";
 
     db.query(sqlNew, [uid], (err, result) => {
         res.send(result);
@@ -97,7 +178,7 @@ app.post('/insert_user', (req, res) => {
     const name = req.body.name;
     const email = req.body.email;
 
-    const sqlInsert = "INSERT INTO user (userId, name, email) VALUES (?,?,?)";
+    const sqlInsert = "INSERT INTO user (uid, name, email) VALUES (?,?,?)";
 
     db.query(sqlInsert, [uid, name, email], (err, result) => {
         res.send(result);
