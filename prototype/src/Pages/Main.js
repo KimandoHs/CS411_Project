@@ -177,6 +177,7 @@ const Main = () => {
             document.getElementById("loginname").innerHTML = "Welcome back, " + login_name;
             document.getElementById("loginemail").innerHTML = "Email: " + login_email;
             document.getElementById("usercollection").style.display = "block"
+            document.getElementById("userquiz").style.display = "block"
             document.getElementById("facebookbutton").style.display = "none"
             document.getElementById("googlebutton").style.display = "none"
 
@@ -195,6 +196,7 @@ const Main = () => {
             document.getElementById("loginname").innerHTML = "Welcome back, " + login_name;
             document.getElementById("loginemail").innerHTML = "Email: " + login_email;
             document.getElementById("usercollection").style.display = "block"
+            document.getElementById("userquiz").style.display = "block"
             document.getElementById("facebookbutton").style.display = "none"
             document.getElementById("googlebutton").style.display = "none"
             document.getElementById("logoutbutton").style.display = "block"
@@ -207,6 +209,7 @@ const Main = () => {
             document.getElementById("loginname").innerHTML = "Not Logged In";
             document.getElementById("loginemail").innerHTML = "";
             document.getElementById("usercollection").style.display = "none"
+            document.getElementById("userquiz").style.display = "none"
             document.getElementById("logoutbutton").style.display = "none"
             var x = document.getElementById('file')
             var y = document.getElementById('loadingimage')
@@ -670,6 +673,7 @@ const Main = () => {
             document.getElementById('googlebutton').style.display = "none"
             document.getElementById('logoutbutton').style.display = "none"
             document.getElementById('usercollection').style.display = "block"
+            document.getElementById('userquiz').style.display = "block"
             document.getElementById('logoutController').style.display = "none"
             setUserName(main_username)
             setUserEmail(main_email)
@@ -731,6 +735,13 @@ const Main = () => {
                         <Button size ='small' color = 'primary_green' variant="contained"  sx={{m:2}}
                                 startIcon = {<AppsIcon/>} onClick = {() => navigate('/my_collection/'+userName+'&' + userEmail +'&' +loginType)}>
                             My Collection
+                        </Button>
+                    </div>
+
+                    <div id  = "userquiz">
+                        <Button size ='small' color = 'primary_green' variant="contained"  sx={{m:2}}
+                                startIcon = {<AppsIcon/>} onClick = {() => navigate('/quiz/'+userName+'&' + userEmail +'&' +loginType)}>
+                            Quiz me!
                         </Button>
                     </div>
 
