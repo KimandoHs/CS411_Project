@@ -111,13 +111,25 @@ app.post('/insert_fav', (req,res) => {
     const order = suggestObj.order;
     const phylum = suggestObj.phylum;
     const info = suggestObj.info
-    console.log(info)
 
     const sqlNew = "INSERT INTO plant_collection VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
 
     db.query(sqlNew, [uid,plant_name,add_date,sci_name,plant_class,
             family,genus,kingdom,order,phylum,info], (err, result) => {
+        res.send(result);
+    })
+})
+
+app.post('/get_collection', (req,res) => {
+
+    const email = req.body.email
+
+
+    const sql = "SELECT * FROM user, plant_collection, plant_image WHERE user.email = (?) AND user.uid = plant_collection.uid AND plant_collection.plant_name = plant_image.plant_name";
+
+
+    db.query(sql, [email], (err, result) => {
         res.send(result);
     })
 })
@@ -157,16 +169,35 @@ app.post('/insert_image', (req,res) => {
 })
 
 
+app.post('/delete_fav', (req,res) => {
+    const name = req.body.plant_name
 
+    sql = "DELETE FROM plant_collection WHERE plant_name = ?"
+
+    db.query(sql, [name], (err, result) => {
+        res.send(result);
+    })
+})
+
+app.post('/delete_image', (req,res) => {
+    const name = req.body.plant_name
+
+    sql = "DELETE FROM plant_image WHERE plant_name = ?"
+
+    db.query(sql, [name], (err, result) => {
+        res.send(result);
+    })
+})
 
 app.post('/check_user', (req, res) => {
 
 
     //update this part
     const uid = req.body.uid;
-    const sqlNew = "SELECT * from user WHERE uid=(?) ";
+    const useremail = req.body.useremail;
+    const sqlNew = "SELECT * from user WHERE uid=(?) OR email = (?) ";
 
-    db.query(sqlNew, [uid], (err, result) => {
+    db.query(sqlNew, [uid,useremail], (err, result) => {
         res.send(result);
     })
 })

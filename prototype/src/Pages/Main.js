@@ -136,7 +136,7 @@ const Main = () => {
     }
 
     const checkInsertUser = () =>{
-        axios.post('http://localhost:8000/check_user', {uid: userId})
+        axios.post('http://localhost:8000/check_user', {uid: userId,useremail:userEmail})
             .then((re) => {
                 console.log("returned match: ", re.data.length);
 
@@ -336,45 +336,79 @@ const Main = () => {
         const index = i+1
         const plant_name = item.plant_name;
         var common_name_array = details.common_names;
-        if(common_name_array.length > 3)
-            common_name_array = common_name_array.slice(0,3);
-        var common_name_string = '';
-        for(let i = 0; i < common_name_array.length; i++){
-            common_name_string += common_name_array[i] + ', ';
+        if(common_name_array == null){
+            common_name_string = 'no common name'
         }
-        common_name_string = common_name_string.substring(0,(common_name_string.length -2))
-        const scientific_name = details.scientific_name;
+        else {
+            common_name_array = common_name_array.slice(0, 3);
+            var common_name_string = '';
+            for (let i = 0; i < common_name_array.length; i++) {
+                common_name_string += common_name_array[i] + ', ';
+            }
+            common_name_string = common_name_string.substring(0, (common_name_string.length - 2))
+        }
+
+        var scientific_name = details.scientific_name;
+        if(scientific_name == null)
+            {scientific_name = "no scientific name"}
         var synonym_array = details.synonyms;
-        if(synonym_array.length > 3)
-            synonym_array = synonym_array.slice(0,3)
-        var synonym_string = '';
-        for(let i = 0; i < synonym_array.length; i++){
-            synonym_string += synonym_array[i] + ', ';
+        if(synonym_array == null){
+            synonym_string = 'no synonym string'
         }
-        synonym_string = synonym_string.slice(0,(synonym_string.length -2))
+        else{
+            if(synonym_array.length > 3) {
+                synonym_array = synonym_array.slice(0, 3)
+                var synonym_string = '';
+                for (let i = 0; i < synonym_array.length; i++) {
+                    synonym_string += synonym_array[i] + ', ';
+                }
+                synonym_string = synonym_string.slice(0, (synonym_string.length - 2))
+            }
+        }
 
-        const plant_class = details.taxonomy.class
-        const family = details.taxonomy.family
-        const genus = details.taxonomy.genus
-        const kingdom = details.taxonomy.kingdom
-        const order = details.taxonomy.order
-        const phylum = details.taxonomy.phylum
-        const wiki_des = details.wiki_description.value;
-        const probability = item.probability;
-
+        var plant_class = details.taxonomy.class
+        if(plant_class == null)
+            plant_class = "no class"
+        var family = details.taxonomy.family
+        if(family == null)
+            family = "no family"
+        var genus = details.taxonomy.genus
+        if(genus == null)
+            genus = "no genus"
+        var kingdom = details.taxonomy.kingdom
+        if(kingdom == null)
+            kingdom = "no kingdom"
+        var order = details.taxonomy.order
+        if(order == null)
+            order = "no order"
+        var phylum = details.taxonomy.phylum
+        if(phylum == null)
+            phylum = "no phylum"
+        var wiki_des = details.wiki_description;
+        if(wiki_des == null)
+            wiki_des = "no wikipedia description"
+        else{wiki_des = details.wiki_description.value}
+        var probability = item.probability;
+        if(probability == null)
+            probability = "no plant class"
         var simIm = item.similar_images;
-        if(simIm.length > 3)
-            simIm = simIm.slice(0,3);
-        var simImage_string = '';
-        for(let i = 0; i < simIm.length; i++){
-            simImage_string += "<div className = 'similar_image'>" +
-                "<img src =" + simIm[i].url + " width = '200px' height = '200px'>" +
-                "<div> Similarity:</div>"+
-                "<div> "+ simIm[i].similarity.toPrecision(6) +"</div>" +
-                "</div>"
+        if(simIm == null){
+            simImage_string = "no similar image"
         }
-        simImage_string = "<Stack direction = 'row' spacing = '20px'>" + simImage_string + "</Stack>"
+        else {
+            if (simIm.length > 3)
+                simIm = simIm.slice(0, 3);
+            var simImage_string = '';
+            for (let i = 0; i < simIm.length; i++) {
+                simImage_string += "<div className = 'similar_image'>" +
+                    "<img src =" + simIm[i].url + " width = '200px' height = '200px'>" +
+                    "<div> Similarity:</div>" +
+                    "<div> " + simIm[i].similarity.toPrecision(6) + "</div>" +
+                    "</div>"
+            }
 
+            simImage_string = "<Stack direction = 'row' spacing = '20px'>" + simImage_string + "</Stack>"
+        }
         const xmlBlock = "<div className = 'suggestion'>" +
             "<h2 >Suggestion " + index + "</h2>" +
             "<div> Likelyhood: " +probability.toPrecision(6)+"</div>" +
@@ -452,7 +486,7 @@ const Main = () => {
     const insertNewPlant = (suggestObj) => {
         const name = suggestObj.name
         const url = suggestObj.img
-        console.log("trying to insert into user",suggestObj.uid,name)
+        console.log("trying to insert into user",suggestObj.uid,suggestObj)
 
         axios.post('http://localhost:8000/insert_fav',
             {obj:suggestObj, uid:suggestObj.uid})
@@ -484,7 +518,19 @@ const Main = () => {
     }
 
     const removeFav = (obj) => {
+        axios.post('http://localhost:8000/delete_fav',
+            {plant_name:obj.name})
+            .then((res) => {
+                console.log("deleted image", res)
+            })
+            .catch(err=>console.log(err))
 
+        axios.post('http://localhost:8000/delete_image',
+            {plant_name:obj.name})
+            .then((res) => {
+                console.log("deleted image_url", res)
+            })
+            .catch(err=>console.log(err))
     }
 
     const handleFavorite = () => {
@@ -493,15 +539,16 @@ const Main = () => {
 
             console.log("uid state is", userId)
             const uid = userId
-
+            console.log("user id is ",uid)
             if (uid == ''){
                 alert("Log in to keep a collection")
             }
             else{
                 const obj = favObject
                 console.log("add favObj", favObject)
-                document.getElementById("addfavbutton").children[0].variant = "contained"
+
                 setFavButton('In Collection');
+                obj.uid = uid
                 checkInsertExistFav(obj);
             }
 
