@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import './style.css'
 import {signInWithPopup, signOut, GoogleAuthProvider, FacebookAuthProvider} from 'firebase/auth';
 import {authentication} from "./firebase_config";
-import {Button} from '@mui/material';
+import {Button, Typography} from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
@@ -28,10 +28,15 @@ const Main = () => {
         },
         palette: {
             primary_green: {
-                main: '#6B8E23',
+                main: '#11B4CB',
                 darker: '#fff',
             },
 
+        },
+        typography: {
+            fontFamily: [
+                'segoe ui',
+            ].join(','),
         },
     });
 
@@ -697,7 +702,7 @@ const Main = () => {
 
 
 
-
+        <div style={{ backgroundImage: "url(/newphoto.jpg)" }}>
 
         <div className="App">
             <ThemeProvider theme={theme}>
@@ -768,7 +773,7 @@ const Main = () => {
 
                 <div className= "center2">
 
-                    <h1 >Plant Identification</h1>
+                    <Typography variant="h4" gutterBottom>Plant Identification</Typography>
 
                     <div id = 'uploadimage'>
                         <img src={imagePathUrl} width={300} height={300}/>
@@ -807,7 +812,7 @@ const Main = () => {
 
 
                 <div className="center2">
-                    <h1>Plant Query</h1>
+                    <Typography variant="h4" gutterBottom>Plant Query</Typography>
                     <input type="text" placeholder="Search for plants" onChange = {e => setWikiSearch(e.target.value)} ></input>
                     <Button size ='small' color = 'primary_green' variant="contained" sx = {{m:2}}
                             startIcon={<SearchIcon/>} onClick={handleWikiSubmit}>Search</Button>
@@ -825,6 +830,8 @@ const Main = () => {
 
             </ThemeProvider>
         </div>
+        </div>
+
 
 
 
