@@ -1055,7 +1055,7 @@ const Main = () => {
                                 startIcon={<SearchIcon/>} onClick={handleWikiSubmit}>Search</Button>
                     </div>
                     <div id = "wikipage" className="center2">
-                            <div id = "wikitext"></div>
+                        <div id = "wikitext"></div>
                     </div>
 
 
