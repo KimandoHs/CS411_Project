@@ -18,7 +18,7 @@ const Collection = () => {
         },
         palette: {
             primary_green: {
-                main: '#6B8E23',
+                main: '#11B4CB',
                 darker: '#fff',
             },
 
@@ -27,11 +27,6 @@ const Collection = () => {
 
     let navigate = useNavigate()
     let {userid, username, useremail, login_type} = useParams()
-    const [expanded, setExpanded] = useState(false);
-
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
 
 
     const getCollectionObj = () => {
@@ -42,6 +37,7 @@ const Collection = () => {
                 displayCollection(re.data)
             })
             .catch(err=>console.log(err))
+
     }
 
 
@@ -199,9 +195,11 @@ const Collection = () => {
             block.appendChild(container)
 
             var delete_div = document.createElement('div')
+            delete_div.className = "removediv"
             var deleteButton = document.createElement('button')
             deleteButton.innerHTML = "REMOVE"
             deleteButton.id = rowObj.plant_name
+            deleteButton.className = "collectremovebutton"
             deleteButton.addEventListener("click",function (e){
                 handleDelete(this.id);
             })

@@ -22,6 +22,12 @@ const Main = () => {
     let navigate = useNavigate()
     let {main_id, main_username, main_email, login_type} = useParams();
 
+    const removeAllChildNodes = (parent) => {
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
+        }
+    }
+
     const theme = createTheme({
         status: {
             danger: '#e53e3e',
@@ -31,6 +37,10 @@ const Main = () => {
                 main: '#11B4CB',
                 darker: '#fff',
             },
+            black:{
+                main: '#000',
+                darker: '#fff'
+            }
 
         },
         typography: {
@@ -55,20 +65,20 @@ const Main = () => {
 
     const signInWithFacebook = () => {
         if(loginStat){
-                signOut(authentication)
-                    .then((re) => {
-                            console.log("logged out")
-                            setUserId(prevId => "");
-                            setUserName(prevName => "");
-                            setUserEmail(prevEmail => "");
-                            setLoginType(prevType => "")
-                            setLoginStat(prevState => false);
-                        }
-                    )
-                    .catch((err) => {
-                        console.log(err);
-                    })
-            }
+            signOut(authentication)
+                .then((re) => {
+                        console.log("logged out")
+                        setUserId(prevId => "");
+                        setUserName(prevName => "");
+                        setUserEmail(prevEmail => "");
+                        setLoginType(prevType => "")
+                        setLoginStat(prevState => false);
+                    }
+                )
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
         else if(!loginStat) {
             const provider = new FacebookAuthProvider();
             signInWithPopup(authentication, provider)
@@ -100,20 +110,20 @@ const Main = () => {
 
     const signInWithGoogle = () => {
         if(loginStat){
-                signOut(authentication)
-                    .then((re) => {
-                            console.log("logged out");
-                            setUserName(prevName => "");
-                            setUserEmail(prevEmail => "");
-                            setUserId(prevId => "");
-                            setLoginType(prevType => "")
-                            setLoginStat(prevStat => false);
-                        }
-                    )
-                    .catch((err) => {
-                        console.log(err);
-                    })
-            }
+            signOut(authentication)
+                .then((re) => {
+                        console.log("logged out");
+                        setUserName(prevName => "");
+                        setUserEmail(prevEmail => "");
+                        setUserId(prevId => "");
+                        setLoginType(prevType => "")
+                        setLoginStat(prevStat => false);
+                    }
+                )
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
         else if(!loginStat) {
             const provider = new GoogleAuthProvider();
             signInWithPopup(authentication, provider)
@@ -160,11 +170,11 @@ const Main = () => {
 
     const handleLogout =() => {
 
-            if (loginType == "facebook") {
-                signInWithFacebook();
-            } else if (loginType == "google") {
-                signInWithGoogle()
-            }
+        if (loginType == "facebook") {
+            signInWithFacebook();
+        } else if (loginType == "google") {
+            signInWithGoogle()
+        }
     }
 
 
@@ -274,9 +284,6 @@ const Main = () => {
 
     const onFileChange = e =>{
         document.getElementById("isplant").innerHTML = ''
-        document.getElementById("suggestion1").innerHTML = ''
-        document.getElementById("suggestion2").innerHTML = ''
-        document.getElementById("suggestion3").innerHTML = ''
         document.getElementById("addfavbutton").style.display = "none"
         document.getElementById("incollectionbutton").style.display = "none"
         setFavObject(null);
@@ -294,6 +301,9 @@ const Main = () => {
 
     useEffect(() => {
         if(imagePathUrl != ''){
+            removeAllChildNodes(document.getElementById("suggestion1"))
+            removeAllChildNodes(document.getElementById("suggestion2"))
+            removeAllChildNodes(document.getElementById("suggestion3"))
             var x = document.getElementById('uploadimage')
             x.style.display = "block";
         }
@@ -351,7 +361,7 @@ const Main = () => {
         card.className = "suggestionCard"
         const title = "Suggestion " + index
 
-        var title_div = document.createElement("div")
+        var title_div = document.createElement("h2")
         var title_textnode = document.createTextNode(title)
         title_div.className = "center2"
         title_div.appendChild(title_textnode)
@@ -372,13 +382,13 @@ const Main = () => {
         var cat = document.createTextNode("Plant name")
         div.appendChild(cat)
         var span = document.createElement("span")
-        span.style = "float:right"
+        span.style = "float:right;font-weight:bold"
         var text = document.createTextNode(plant_name)
         span.appendChild(text)
         div.appendChild(span)
         containerinfo.appendChild(div)
 
-        var probability = item.probability;
+        var probability = item.probability.toPrecision(6);
         if(probability == null)
             probability = "0"
         var div = document.createElement("div")
@@ -386,7 +396,7 @@ const Main = () => {
         var cat = document.createTextNode("Likelyhood")
         div.appendChild(cat)
         var span = document.createElement("span")
-        span.style = "float:right"
+        span.style = "float:right;font-weight:bold"
         var text = document.createTextNode(probability)
         span.appendChild(text)
         div.appendChild(span)
@@ -394,55 +404,94 @@ const Main = () => {
 
         var common_name_array = details.common_names;
         if(common_name_array == null){
-            common_name_string = 'no common name'
+            var div = document.createElement("div")
+            div.style = "text-align:left"
+            var cat = document.createTextNode("Common names")
+            div.appendChild(cat)
+            var span = document.createElement("span")
+            span.style = "float:right;font-weight:bold"
+            var text = document.createTextNode("No common name")
+            span.appendChild(text)
+            div.appendChild(span)
+            containerinfo.appendChild(div)
         }
         else {
             common_name_array = common_name_array.slice(0, 3);
-            var common_name_string = '';
+            var big_div = document.createElement("div")
+            big_div.style = "text-align:left"
+            var cat = document.createTextNode("Common names")
+            big_div.appendChild(cat)
             for (let i = 0; i < common_name_array.length; i++) {
-                common_name_string += common_name_array[i] + ', ';
+                if (i == 0){
+                    var span = document.createElement("span")
+                    span.style = "float:right;font-weight:bold"
+                    var text = document.createTextNode(common_name_array[i])
+                    span.appendChild(text)
+                    big_div.appendChild(span)
+                    containerinfo.appendChild(big_div)
+                }
+                else{
+                    var span = document.createElement("div")
+                    span.style = "text-align:right;font-weight:bold"
+                    var text = document.createTextNode(common_name_array[i])
+                    span.appendChild(text)
+                    big_div.appendChild(span)
+                }
             }
-            common_name_string = common_name_string.substring(0, (common_name_string.length - 2))
         }
-        var div = document.createElement("div")
-        div.style = "text-align:left"
-        var cat = document.createTextNode("Common names")
-        div.appendChild(cat)
-        var span = document.createElement("span")
-        span.style = "float:right"
-        var text = document.createTextNode(common_name_string)
-        span.appendChild(text)
-        div.appendChild(span)
-        containerinfo.appendChild(div)
 
 
         var scientific_name = details.scientific_name;
         if(scientific_name == null)
-            {scientific_name = "no scientific name"}
-        var synonym_array = details.synonyms;
-        if(synonym_array == null){
-            synonym_string = 'no synonym string'
-        }
-        else{
-            if(synonym_array.length > 3) {
-                synonym_array = synonym_array.slice(0, 3)
-                var synonym_string = '';
-                for (let i = 0; i < synonym_array.length; i++) {
-                    synonym_string += synonym_array[i] + ', ';
-                }
-                synonym_string = synonym_string.slice(0, (synonym_string.length - 2))
-            }
-        }
+        {scientific_name = "no scientific name"}
         var div = document.createElement("div")
         div.style = "text-align:left"
-        var cat = document.createTextNode("Synonyms")
+        var cat = document.createTextNode("Scientific Name")
         div.appendChild(cat)
         var span = document.createElement("span")
-        span.style = "float:right"
-        var text = document.createTextNode(synonym_string)
+        span.style = "float:right;font-weight:bold"
+        var text = document.createTextNode(scientific_name)
         span.appendChild(text)
         div.appendChild(span)
         containerinfo.appendChild(div)
+
+        var synonym_array = details.synonyms;
+        if(synonym_array == null){
+            var div = document.createElement("div")
+            div.style = "text-align:left"
+            var cat = document.createTextNode("Synonyms")
+            div.appendChild(cat)
+            var span = document.createElement("span")
+            span.style = "float:right;font-weight:bold"
+            var text = document.createTextNode("No synonym")
+            span.appendChild(text)
+            div.appendChild(span)
+            containerinfo.appendChild(div)
+        }
+        else {
+            synonym_array = synonym_array.slice(0, 3);
+            var big_div = document.createElement("div")
+            big_div.style = "text-align:left"
+            var cat = document.createTextNode("Synonyms")
+            big_div.appendChild(cat)
+            for (let i = 0; i < synonym_array.length; i++) {
+                if (i == 0){
+                    var span = document.createElement("span")
+                    span.style = "float:right;font-weight:bold"
+                    var text = document.createTextNode(synonym_array[i])
+                    span.appendChild(text)
+                    big_div.appendChild(span)
+                    containerinfo.appendChild(big_div)
+                }
+                else{
+                    var span = document.createElement("div")
+                    span.style = "text-align:right;font-weight:bold"
+                    var text = document.createTextNode(synonym_array[i])
+                    span.appendChild(text)
+                    big_div.appendChild(span)
+                }
+            }
+        }
 
         var plant_class = details.taxonomy.class
         if(plant_class == null)
@@ -452,7 +501,7 @@ const Main = () => {
         var cat = document.createTextNode("Class")
         div.appendChild(cat)
         var span = document.createElement("span")
-        span.style = "float:right"
+        span.style = "float:right;font-weight:bold"
         var text = document.createTextNode(plant_class)
         span.appendChild(text)
         div.appendChild(span)
@@ -466,7 +515,7 @@ const Main = () => {
         var cat = document.createTextNode("Family")
         div.appendChild(cat)
         var span = document.createElement("span")
-        span.style = "float:right"
+        span.style = "float:right;font-weight:bold"
         var text = document.createTextNode(family)
         span.appendChild(text)
         div.appendChild(span)
@@ -480,7 +529,7 @@ const Main = () => {
         var cat = document.createTextNode("Genus")
         div.appendChild(cat)
         var span = document.createElement("span")
-        span.style = "float:right"
+        span.style = "float:right;font-weight:bold"
         var text = document.createTextNode(genus)
         span.appendChild(text)
         div.appendChild(span)
@@ -494,7 +543,7 @@ const Main = () => {
         var cat = document.createTextNode("Kingdom")
         div.appendChild(cat)
         var span = document.createElement("span")
-        span.style = "float:right"
+        span.style = "float:right;font-weight:bold"
         var text = document.createTextNode(kingdom)
         span.appendChild(text)
         div.appendChild(span)
@@ -508,7 +557,7 @@ const Main = () => {
         var cat = document.createTextNode("Order")
         div.appendChild(cat)
         var span = document.createElement("span")
-        span.style = "float:right"
+        span.style = "float:right;font-weight:bold"
         var text = document.createTextNode(order)
         span.appendChild(text)
         div.appendChild(span)
@@ -522,7 +571,7 @@ const Main = () => {
         var cat = document.createTextNode("Phylum")
         div.appendChild(cat)
         var span = document.createElement("span")
-        span.style = "float:right"
+        span.style = "float:right;font-weight:bold"
         var text = document.createTextNode(phylum)
         span.appendChild(text)
         div.appendChild(span)
@@ -533,15 +582,17 @@ const Main = () => {
             wiki_des = "no wikipedia description"
         else{wiki_des = details.wiki_description.value}
         var div = document.createElement("div")
-        div.style = "text-align:left"
+        div.style = "text-align:center;font-weight:bold"
         var cat = document.createTextNode("Wikipedia")
         div.appendChild(cat)
-        var span = document.createElement("span")
-        span.style = "float:right"
-        var text = document.createTextNode(wiki_des.substring(0,500))
+        var span = document.createElement("div")
+        span.style = "text-align:left"
+
+        var text = document.createTextNode(wiki_des)
         span.appendChild(text)
         div.appendChild(span)
         containerinfo.appendChild(div)
+        containerinfo.appendChild(span)
 
 
         var simIm = item.similar_images;
@@ -564,8 +615,8 @@ const Main = () => {
                 var cat = document.createTextNode("Similarity")
                 div.appendChild(cat)
                 var span = document.createElement("span")
-                span.style = "float:right"
-                var text = document.createTextNode(simIm[i].similarity)
+                span.style = "float:right;font-weight:bold"
+                var text = document.createTextNode(simIm[i].similarity.toPrecision(6))
                 span.appendChild(text)
                 div.appendChild(span)
                 var sim_info = document.createElement("div")
@@ -576,8 +627,7 @@ const Main = () => {
         }
 
         var insert_id = "suggestion" + index
-        var insert_div = document.getElementById(insert_id)
-        insert_div.appendChild(card)
+        document.getElementById(insert_id).appendChild(card)
 
         let plant_Object = {name: plant_name, sci_name:scientific_name,
             class:plant_class, family:family, genus:genus,
@@ -605,7 +655,8 @@ const Main = () => {
         }
         else if(identifyData != null){
             document.getElementById("isplant").innerHTML = "Oops, doesn't look like a plant"
-        }
+            document.getElementById("addfavbutton").style.display = "none"}
+
 
     }, [ isPlant, isPlantProb, suggestArray, uploadImage ])
 
@@ -782,17 +833,32 @@ const Main = () => {
             console.log("title: ", wikiTitle)
             console.log("imageurl: ", wikiImage)
             console.log("intro: ", wikiIntro)
-            var x = document.getElementById('wikiimage')
-            x.style.display = "block";
+            var div = document.createElement("div")
+            div.style = "text-align:center;font-weight:bold"
+            var cat = document.createTextNode(wikiTitle)
+            div.appendChild(cat)
+            var span = document.createElement("div")
+            span.style = "text-align:left"
+            var text = document.createTextNode(wikiIntro)
+            span.appendChild(text)
+            div.appendChild(span)
+            var img = document.createElement("img")
+            img.src = wikiImage
+            img.alt = "Avatar"
+            img.style = "margin-top:50px;width: 500px; height: 500px; object-fit: cover"
+
+            var y = document.getElementById('wikitext')
+            y.className = "wikicard"
+            y.appendChild(div)
+            y.appendChild(span)
+            y.appendChild(img)
         }
-        else{
-            var x = document.getElementById('wikiimage')
-            x.style.display = "none";
-        }
+
     },[wikiIntro, wikiImage, wikiTitle])
 
     const handleWikiSubmit = (e) => {
         e.preventDefault();
+        removeAllChildNodes(document.getElementById("wikitext"))
         parseWikiPage(wikiSearch);
     }
 
@@ -827,19 +893,24 @@ const Main = () => {
             setLoginStat(true)
         }
         else{
-        var w = document.getElementById('usercollection')
-        var x = document.getElementById('file')
-        var y = document.getElementById('loadingimage')
-        var z = document.getElementById('addfavbutton')
+            removeAllChildNodes(document.getElementById("suggestion1"))
+            removeAllChildNodes(document.getElementById("suggestion2"))
+            removeAllChildNodes(document.getElementById("suggestion3"))
+            removeAllChildNodes(document.getElementById("wikitext"))
+            var x = document.getElementById('file')
+            var y = document.getElementById('loadingimage')
+            var z = document.getElementById('addfavbutton')
             document.getElementById('incollectionbutton').style.display = "none"
+            if(userId == '') {
+                var a = document.getElementById('logoutbutton')
+                var w = document.getElementById('usercollection')
+                a.style.display = "none"
+                w.style.display = "none"
+            }
 
-            var a = document.getElementById('logoutbutton')
-
-            a.style.display = "none"
-        w.style.display = "none"
-        z.style.display = "none"
-        y.style.display = "none"
-        x.style.display = "none"
+            z.style.display = "none"
+            y.style.display = "none"
+            x.style.display = "none"
         }
     }, [])
 
@@ -856,142 +927,141 @@ const Main = () => {
 
         <div style={{ backgroundImage: "url(/newphoto.jpg)" }}>
 
-        <div className="App">
-            <ThemeProvider theme={theme}>
+            <div className="App">
+                <ThemeProvider theme={theme}>
 
 
 
 
 
 
-                <div className= "login">
-                    <Stack direction = "row" spacing = {0}>
-                        <div className="loginStatus">
-                            <div id = "loginname"> </div>
-                            <div id = "loginemail"></div>
-                        </div>
-                        <div id = "logoutbutton">
-                            <Button size ='small' color = 'primary_green' variant="outlined"  sx={{m:2}} startIcon = {<LogoutIcon/>} onClick = {handleLogout}>
-                                LOG OUT
+                    <div className= "login">
+                        <Stack direction = "row" spacing = {0}>
+                            <div className="loginStatus">
+                                <div id = "loginname"> </div>
+                                <div id = "loginemail"></div>
+                            </div>
+                            <div id = "logoutbutton">
+                                <Button size ='small' color = 'black' variant="outlined"  sx={{m:2}} startIcon = {<LogoutIcon/>} onClick = {handleLogout}>
+                                    LOG OUT
+                                </Button>
+                            </div>
+
+
+                        </Stack>
+
+                        <div id  = "usercollection">
+                            <Button size ='small' color = 'primary_green' variant="contained"  sx={{m:2}}
+                                    startIcon = {<AppsIcon/>} onClick = {() => navigate('/my_collection/'+userId+'&'+userName+'&' + userEmail +'&' +loginType)}>
+                                My Collection
                             </Button>
                         </div>
 
+                        <div id  = "userquiz">
+                            <Button size ='small' color = 'primary_green' variant="contained"  sx={{m:2}}
+                                    startIcon = {<AppsIcon/>} onClick = {() => navigate('/quiz/'+userId + '&'+userName+'&' + userEmail +'&' +loginType)}>
+                                Quiz me!
+                            </Button>
+                        </div>
 
-                    </Stack>
+                        <div id = "loginbutton">
 
-                    <div id  = "usercollection">
-                        <Button size ='small' color = 'primary_green' variant="contained"  sx={{m:2}}
-                                startIcon = {<AppsIcon/>} onClick = {() => navigate('/my_collection/'+userId+'&'+userName+'&' + userEmail +'&' +loginType)}>
-                            My Collection
-                        </Button>
-                    </div>
-
-                    <div id  = "userquiz">
-                        <Button size ='small' color = 'primary_green' variant="contained"  sx={{m:2}}
-                                startIcon = {<AppsIcon/>} onClick = {() => navigate('/quiz/'+userId+'&'+userName+'&' + userEmail +'&' +loginType)}>
-                            Quiz me!
-                        </Button>
-                    </div>
-
-                    <div id = "loginbutton">
-
-                        <Stack direction="row" spacing={0}>
-                            <div id="googlebutton" className="googleLogin">
-                                <Button size ='small' color = 'primary_green' variant="contained"  sx={{m:2}} startIcon = {<GoogleIcon/>} onClick={signInWithGoogle}>
-                                    Google
-                                </Button>
-                            </div>
-                            <div id = "facebookbutton" className="facebookLogin">
-                                <Button size ='small' color = 'primary_green' variant="contained" sx = {{m:2}} startIcon={<FacebookIcon/>} onClick={signInWithFacebook}>
-                                    Facebook
-                                </Button>
-                            </div>
-                        </Stack>
-                        <div id = "logoutController">
-                            <div className="logoutProp">
-                                Log Out Existing Users At
-                            </div>
                             <Stack direction="row" spacing={0}>
-                                <div className="logout">
-                                    <IconButton size ='small' aria-label="google" color = "primary_green" onClick = {() => window.open('https://myaccount.google.com', '_blank')}>
-                                        <GoogleIcon/>
-                                    </IconButton>
+                                <div id="googlebutton" className="googleLogin">
+                                    <Button size ='small' color = 'primary_green' variant="contained"  sx={{m:2}} startIcon = {<GoogleIcon/>} onClick={signInWithGoogle}>
+                                        Google
+                                    </Button>
                                 </div>
-                                <div className="logout">
-                                    <IconButton size ='small' aria-label="facebook" color = "primary_green" onClick = {() => window.open('https://www.facebook.com', '_blank')}>
-                                        <FacebookIcon/>
-                                    </IconButton>
+                                <div id = "facebookbutton" className="facebookLogin">
+                                    <Button size ='small' color = 'primary_green' variant="contained" sx = {{m:2}} startIcon={<FacebookIcon/>} onClick={signInWithFacebook}>
+                                        Facebook
+                                    </Button>
                                 </div>
                             </Stack>
+                            <div id = "logoutController">
+                                <div className="logoutProp">
+                                    Log Out Existing Users At
+                                </div>
+                                <Stack direction="row" spacing={0}>
+                                    <div className="logout">
+                                        <IconButton size ='small' aria-label="google" color = "primary_green" onClick = {() => window.open('https://myaccount.google.com', '_blank')}>
+                                            <GoogleIcon/>
+                                        </IconButton>
+                                    </div>
+                                    <div className="logout">
+                                        <IconButton size ='small' aria-label="facebook" color = "primary_green" onClick = {() => window.open('https://www.facebook.com', '_blank')}>
+                                            <FacebookIcon/>
+                                        </IconButton>
+                                    </div>
+                                </Stack>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                    <div className= "center2">
+
+                        <Typography variant="h4" gutterBottom>Plant Identification</Typography>
+
+                        <div id = 'uploadimage' >
+                            <img  className = "uploadimage"  src={imagePathUrl} />
+                        </div>
+                        <br></br>
+
+                        <div>
+                            <Button size ='small' color = 'primary_green' variant="contained" sx = {{m:2}} startIcon={<AttachFileIcon/>}
+                                    onClick={() => document.getElementById('file').click()}>Choose File</Button>
+
+                            <input id = 'file' type = "file"  name = "image" onChange={onFileChange}></input>
+                            &nbsp;{fileName}&nbsp;
+                            <Button size ='small' color = 'primary_green' variant="contained" sx = {{m:2}}
+                                    startIcon={<UploadFileIcon/>} onClick = {submitFileData}>Identify</Button>
+                        </div>
+                        <br></br>
+                        <h2 id = "loadingimage">Loading... Please Wait</h2>
+
+                        <h2 id = "isplant"></h2>
+                        <div id = "addfavbutton">
+                            <Button size ='small' color = 'black' variant="outlined" sx = {{m:2}} startIcon={<GradeIcon/>} onClick={handleFavorite}>
+                                Add to Collection
+                            </Button>
+                        </div>
+                        <div id = "incollectionbutton">
+                            <Button size ='small' color = 'primary_green' variant="contained" sx = {{m:2}} startIcon={<GradeIcon/>} onClick={handleFavorite}>
+                                In Collection
+                            </Button>
                         </div>
 
                     </div>
-                </div>
 
 
-
-                <div className= "center2">
-
-                    <Typography variant="h4" gutterBottom>Plant Identification</Typography>
-
-                    <div id = 'uploadimage'>
-                        <img src={imagePathUrl} width={300} height={300}/>
+                    <div className="center2">
+                        <Stack direction ="row" spacing = {1}>
+                            <div id = "suggestion1"></div>
+                            <div id = "suggestion2"></div>
+                            <div id = "suggestion3"></div>
+                        </Stack>
                     </div>
-                    <br></br>
 
-                    <div>
-                        <Button size ='small' color = 'primary_green' variant="contained" sx = {{m:2}} startIcon={<AttachFileIcon/>}
-                                onClick={() => document.getElementById('file').click()}>Choose File</Button>
 
-                        <input id = 'file' type = "file"  name = "image" onChange={onFileChange}></input>
-                        &nbsp;{fileName}&nbsp;
+
+
+                    <div className="center2">
+                        <Typography variant="h4" gutterBottom>Plant Query</Typography>
+                        <input type="text" placeholder="Search for plants" onChange = {e => setWikiSearch(e.target.value)} ></input>
                         <Button size ='small' color = 'primary_green' variant="contained" sx = {{m:2}}
-                                startIcon={<UploadFileIcon/>} onClick = {submitFileData}>Identify</Button>
+                                startIcon={<SearchIcon/>} onClick={handleWikiSubmit}>Search</Button>
                     </div>
-                    <br></br>
-                    <h2 id = "loadingimage">Loading... Please Wait</h2>
-
-                    <h2 id = "isplant"></h2>
-                    <div id = "addfavbutton">
-                        <Button size ='small' color = 'primary_green' variant="outlined" sx = {{m:2}} startIcon={<GradeIcon/>} onClick={handleFavorite}>
-                            Add to Collection
-                        </Button>
+                    <div id = "wikipage" className="center2">
+                            <div id = "wikitext"></div>
                     </div>
-                    <div id = "incollectionbutton">
-                        <Button size ='small' color = 'primary_green' variant="contained" sx = {{m:2}} startIcon={<GradeIcon/>} onClick={handleFavorite}>
-                            In Collection
-                        </Button>
-                    </div>
-                </div>
-                <Stack direction = 'row' spacing = {1}>
-                    <div id="suggestion1" ></div>
-                    <div id="suggestion2" ></div>
-                    <div id="suggestion3" ></div>
-                </Stack>
 
 
 
-
-
-                <div className="center2">
-                    <Typography variant="h4" gutterBottom>Plant Query</Typography>
-                    <input type="text" placeholder="Search for plants" onChange = {e => setWikiSearch(e.target.value)} ></input>
-                    <Button size ='small' color = 'primary_green' variant="contained" sx = {{m:2}}
-                            startIcon={<SearchIcon/>} onClick={handleWikiSubmit}>Search</Button>
-                </div>
-                <div id = "wikipage" className="center2">
-                    <h2>{wikiTitle}</h2>
-                    <Stack direction="row" spacing={2}>
-                        <div>{wikiIntro}</div>
-
-                        <div id = 'wikiimage' ><img width={300} height={300} src={wikiImage}/></div>
-                    </Stack>
-                </div>
-
-
-
-            </ThemeProvider>
-        </div>
+                </ThemeProvider>
+            </div>
         </div>
 
 
