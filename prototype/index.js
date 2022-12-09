@@ -134,6 +134,19 @@ app.post('/get_collection', (req,res) => {
     })
 })
 
+app.post('/get_plants', (req,res) => {
+
+    const email = req.body.email
+
+
+    const sql = "SELECT * FROM plant_collection, plant_image WHERE plant_collection.plant_name = plant_image.plant_name";
+
+
+    db.query(sql, [email], (err, result) => {
+        res.send(result);
+    })
+})
+
 
 app.post('/check_image', (req,res) => {
 

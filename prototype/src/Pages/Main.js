@@ -888,7 +888,7 @@ const Main = () => {
 
                     <div id  = "userquiz">
                         <Button size ='small' color = 'primary_green' variant="contained"  sx={{m:2}}
-                                startIcon = {<AppsIcon/>} onClick = {() => navigate('/quiz/'+userName+'&' + userEmail +'&' +loginType)}>
+                                startIcon = {<AppsIcon/>} onClick = {() => navigate('/quiz/'+userId+'&' + userName+'&' + userEmail +'&' +loginType)}>
                             Quiz me!
                         </Button>
                     </div>
