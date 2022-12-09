@@ -19,6 +19,9 @@ return (
                 <Route path = "/quiz/" element={<Quiz />}/>
                 <Route path = "/quiz/:userid&:username&:useremail&:login_type" element={<Quiz />}/>
                 <Route path = "/my_collection/:userid&:username&:useremail&:login_type" element={<Collection />}/>
+                <Route path = "/my_collection/:username&:useremail&:login_type" element={<Collection />}/>
+                <Route path = "/quiz/" element={<Quiz />}/>
+                <Route path = "/quiz/:userid&:username&:useremail&:login_type" element={<Quiz />}/>
                 <Route path = "*" element={<Error />}/>
             </Routes>
         </Router>

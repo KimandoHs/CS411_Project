@@ -116,18 +116,18 @@ const Quiz = () => {
             <br></br>
             <div className={"center2"}>
                 <ThemeProvider theme={theme}>
-                <Button variant="contained" size={"small"} color={"neutral"} onClick={() => navigate('/' + userid + '&' + username + '&' + useremail+'&' +login_type)}> Go back to the main page</Button>
-                    </ThemeProvider>
+                    <Button variant="contained" size={"small"} color={"neutral"} onClick={() => navigate('/' + userid + '&' + username + '&' + useremail+'&' +login_type)}> Go back to the main page</Button>
+                </ThemeProvider>
             </div>
             <p id={"scoreText"} style={{float:"right", padding:"0px 100px 140px 0px", fontWeight:"bold", fontSize:"35px"}}>0/0</p>
             <br></br>
             <br></br>
-                <div className={"center2"}>
-                    This is a quiz based on your collection. How many can you get right?{"\n"}
-                </div>
+            <div className={"center2"}>
+                This is a quiz based on your collection. How many can you get right?{"\n"}
+            </div>
             <br></br>
             <div className = "center2" style={{backgroundColor: '#FAF9F6', width: "300px", borderRadius:'5%'}}>
-                    <img id="imageBox" style={{borderRadius: '5%'}} src="https://watchandlearn.scholastic.com/content/dam/classroom-magazines/watchandlearn/videos/animals-and-plants/plants/what-are-plants-/What-Are-Plants.jpg" width={300} height={300} />
+                <img id="imageBox" style={{borderRadius: '5%'}} src="https://watchandlearn.scholastic.com/content/dam/classroom-magazines/watchandlearn/videos/animals-and-plants/plants/what-are-plants-/What-Are-Plants.jpg" width={300} height={300} />
                 <br></br>
                 What plant is this?
                 <br></br>
@@ -156,3 +156,4 @@ const Quiz = () => {
 }
 
 export default Quiz
+

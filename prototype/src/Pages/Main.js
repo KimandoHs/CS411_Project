@@ -888,7 +888,11 @@ const Main = () => {
 
                     <div id  = "userquiz">
                         <Button size ='small' color = 'primary_green' variant="contained"  sx={{m:2}}
+<<<<<<< Updated upstream
                                 startIcon = {<AppsIcon/>} onClick = {() => navigate('/quiz/'+userId+'&' + userName+'&' + userEmail +'&' +loginType)}>
+=======
+                                startIcon = {<AppsIcon/>} onClick = {() => navigate('/quiz/'+userName+'&' + userEmail +'&' +loginType)}>
+>>>>>>> Stashed changes
                             Quiz me!
                         </Button>
                     </div>
