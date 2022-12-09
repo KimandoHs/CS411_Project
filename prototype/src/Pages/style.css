@@ -15,6 +15,14 @@
     text-align: center;
 }
 
+.center3 {
+    margin: auto;
+    padding: 10px;
+    text-align: center;
+    background-color: #bfffcd;
+    min-height: 100vh;
+}
+
 .search {
     width: 60%;
     transform: translateX(33.33%);
