@@ -41,15 +41,15 @@ app.post('/wikipedia', (req,res) => {
 
     const searchText = req.body.searchText;
 
-    wikipediaParser.fetchArticleElements(searchText).then(function(result)
-    {
-       res.send(result);
+    if (searchText != "") {
 
-    }).catch(function(error)
-    {
-        console.log(error);
-    });
+        wikipediaParser.fetchArticleElements(searchText).then(function (result) {
+            res.send(result);
 
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
 })
 
 
