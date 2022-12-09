@@ -20,7 +20,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 const Main = () => {
     let navigate = useNavigate()
-    let {main_username, main_email, login_type} = useParams();
+    let {main_id, main_username, main_email, login_type} = useParams();
 
     const theme = createTheme({
         status: {
@@ -89,7 +89,7 @@ const Main = () => {
                 })
                 .catch((err) => {
                     document.getElementById("loginname").innerHTML = "Oops! This Facebook email is linked to an existing Google user"
-                    document.getElementById("loginemail").innerHTML = "Use Google login instead"
+                    document.getElementById("loginemail").innerHTML = "Please use Google login instead"
 
                 })
 
@@ -277,9 +277,8 @@ const Main = () => {
         document.getElementById("suggestion1").innerHTML = ''
         document.getElementById("suggestion2").innerHTML = ''
         document.getElementById("suggestion3").innerHTML = ''
-        var y = document.getElementById("addfavbutton")
-        y.style.display = "none";
-
+        document.getElementById("addfavbutton").style.display = "none"
+        document.getElementById("incollectionbutton").style.display = "none"
         setFavObject(null);
         setIdentifyData(null)
         setSuggestArray([])
@@ -327,6 +326,11 @@ const Main = () => {
 
     useEffect(() => {
         if(identifyData != null){
+            document.getElementById("loadingimage").style.display = "none"
+            document.getElementById("addfavbutton").style.display = "block"
+            document.getElementById("incollectionbutton").style.display = "none"
+
+            setFavButton('Add to Collection')
             setIsPlant(identifyData.is_plant);
             setUploadImage(identifyData.images[0].url);
             setIsPlantProb(identifyData.is_plant_probability);
@@ -342,7 +346,52 @@ const Main = () => {
     const parseXmlSuggestion = (item, i,userId) => {
         const details = item.plant_details;
         const index = i+1
+
+        var card = document.createElement("div")
+        card.className = "suggestionCard"
+        const title = "Suggestion " + index
+
+        var title_div = document.createElement("div")
+        var title_textnode = document.createTextNode(title)
+        title_div.className = "center2"
+        title_div.appendChild(title_textnode)
+        card.appendChild(title_div)
+        var container = document.createElement('div')
+        container.className = "suggestionContainer"
+        var containerinfo = document.createElement('div')
+        containerinfo.className = "suggestcontainerinfo"
+
+        container.appendChild(containerinfo)
+        card.appendChild(container)
+
+
+
         const plant_name = item.plant_name;
+        var div = document.createElement("div")
+        div.style = "text-align:left"
+        var cat = document.createTextNode("Plant name")
+        div.appendChild(cat)
+        var span = document.createElement("span")
+        span.style = "float:right"
+        var text = document.createTextNode(plant_name)
+        span.appendChild(text)
+        div.appendChild(span)
+        containerinfo.appendChild(div)
+
+        var probability = item.probability;
+        if(probability == null)
+            probability = "0"
+        var div = document.createElement("div")
+        div.style = "text-align:left"
+        var cat = document.createTextNode("Likelyhood")
+        div.appendChild(cat)
+        var span = document.createElement("span")
+        span.style = "float:right"
+        var text = document.createTextNode(probability)
+        span.appendChild(text)
+        div.appendChild(span)
+        containerinfo.appendChild(div)
+
         var common_name_array = details.common_names;
         if(common_name_array == null){
             common_name_string = 'no common name'
@@ -355,6 +404,17 @@ const Main = () => {
             }
             common_name_string = common_name_string.substring(0, (common_name_string.length - 2))
         }
+        var div = document.createElement("div")
+        div.style = "text-align:left"
+        var cat = document.createTextNode("Common names")
+        div.appendChild(cat)
+        var span = document.createElement("span")
+        span.style = "float:right"
+        var text = document.createTextNode(common_name_string)
+        span.appendChild(text)
+        div.appendChild(span)
+        containerinfo.appendChild(div)
+
 
         var scientific_name = details.scientific_name;
         if(scientific_name == null)
@@ -373,92 +433,174 @@ const Main = () => {
                 synonym_string = synonym_string.slice(0, (synonym_string.length - 2))
             }
         }
+        var div = document.createElement("div")
+        div.style = "text-align:left"
+        var cat = document.createTextNode("Synonyms")
+        div.appendChild(cat)
+        var span = document.createElement("span")
+        span.style = "float:right"
+        var text = document.createTextNode(synonym_string)
+        span.appendChild(text)
+        div.appendChild(span)
+        containerinfo.appendChild(div)
 
         var plant_class = details.taxonomy.class
         if(plant_class == null)
             plant_class = "no class"
+        var div = document.createElement("div")
+        div.style = "text-align:left"
+        var cat = document.createTextNode("Class")
+        div.appendChild(cat)
+        var span = document.createElement("span")
+        span.style = "float:right"
+        var text = document.createTextNode(plant_class)
+        span.appendChild(text)
+        div.appendChild(span)
+        containerinfo.appendChild(div)
+
         var family = details.taxonomy.family
         if(family == null)
             family = "no family"
+        var div = document.createElement("div")
+        div.style = "text-align:left"
+        var cat = document.createTextNode("Family")
+        div.appendChild(cat)
+        var span = document.createElement("span")
+        span.style = "float:right"
+        var text = document.createTextNode(family)
+        span.appendChild(text)
+        div.appendChild(span)
+        containerinfo.appendChild(div)
+
         var genus = details.taxonomy.genus
         if(genus == null)
             genus = "no genus"
+        var div = document.createElement("div")
+        div.style = "text-align:left"
+        var cat = document.createTextNode("Genus")
+        div.appendChild(cat)
+        var span = document.createElement("span")
+        span.style = "float:right"
+        var text = document.createTextNode(genus)
+        span.appendChild(text)
+        div.appendChild(span)
+        containerinfo.appendChild(div)
+
         var kingdom = details.taxonomy.kingdom
         if(kingdom == null)
             kingdom = "no kingdom"
+        var div = document.createElement("div")
+        div.style = "text-align:left"
+        var cat = document.createTextNode("Kingdom")
+        div.appendChild(cat)
+        var span = document.createElement("span")
+        span.style = "float:right"
+        var text = document.createTextNode(kingdom)
+        span.appendChild(text)
+        div.appendChild(span)
+        containerinfo.appendChild(div)
+
         var order = details.taxonomy.order
         if(order == null)
             order = "no order"
+        var div = document.createElement("div")
+        div.style = "text-align:left"
+        var cat = document.createTextNode("Order")
+        div.appendChild(cat)
+        var span = document.createElement("span")
+        span.style = "float:right"
+        var text = document.createTextNode(order)
+        span.appendChild(text)
+        div.appendChild(span)
+        containerinfo.appendChild(div)
+
         var phylum = details.taxonomy.phylum
         if(phylum == null)
             phylum = "no phylum"
+        var div = document.createElement("div")
+        div.style = "text-align:left"
+        var cat = document.createTextNode("Phylum")
+        div.appendChild(cat)
+        var span = document.createElement("span")
+        span.style = "float:right"
+        var text = document.createTextNode(phylum)
+        span.appendChild(text)
+        div.appendChild(span)
+        containerinfo.appendChild(div)
+
         var wiki_des = details.wiki_description;
         if(wiki_des == null)
             wiki_des = "no wikipedia description"
         else{wiki_des = details.wiki_description.value}
-        var probability = item.probability;
-        if(probability == null)
-            probability = "no plant class"
+        var div = document.createElement("div")
+        div.style = "text-align:left"
+        var cat = document.createTextNode("Wikipedia")
+        div.appendChild(cat)
+        var span = document.createElement("span")
+        span.style = "float:right"
+        var text = document.createTextNode(wiki_des.substring(0,500))
+        span.appendChild(text)
+        div.appendChild(span)
+        containerinfo.appendChild(div)
+
+
         var simIm = item.similar_images;
         if(simIm == null){
-            simImage_string = "no similar image"
+            var text = document.createTextNode("No similar image")
+            container.appendChild(text)
         }
         else {
             if (simIm.length > 3)
                 simIm = simIm.slice(0, 3);
-            var simImage_string = '';
             for (let i = 0; i < simIm.length; i++) {
-                simImage_string += "<div className = 'similar_image'>" +
-                    "<img src =" + simIm[i].url + " width = '200px' height = '200px'>" +
-                    "<div> Similarity:</div>" +
-                    "<div> " + simIm[i].similarity.toPrecision(6) + "</div>" +
-                    "</div>"
-            }
+                var img = document.createElement("img")
+                img.src = simIm[i].url
+                img.alt = "Avatar"
+                img.style = "width: 400px; height: 400px; object-fit: cover"
+                card.appendChild(img)
 
-            simImage_string = "<Stack direction = 'row' spacing = '20px'>" + simImage_string + "</Stack>"
+                var div = document.createElement("div")
+                div.style = "text-align:left"
+                var cat = document.createTextNode("Similarity")
+                div.appendChild(cat)
+                var span = document.createElement("span")
+                span.style = "float:right"
+                var text = document.createTextNode(simIm[i].similarity)
+                span.appendChild(text)
+                div.appendChild(span)
+                var sim_info = document.createElement("div")
+                sim_info.className = "suggestcontainerinfo"
+                sim_info.appendChild(div)
+                card.appendChild(sim_info)
+            }
         }
-        const xmlBlock = "<div className = 'suggestion'>" +
-            "<h2 >Suggestion " + index + "</h2>" +
-            "<div> Likelyhood: " +probability.toPrecision(6)+"</div>" +
-            "<div> Plant Name: " +plant_name+"</div>" +
-            "<div> Common Names: " +common_name_string+"</div>" +
-            "<div> Scientific Name: " +scientific_name+"</div>" +
-            "<div> Synonyms: " +synonym_string+"</div>" +
-            "<div> Class: " +plant_class+"</div>" +
-            "<div> Family: " +family+"</div>" +
-            "<div> Genus: " +genus+"</div>" +
-            "<div> Kingdom: " +kingdom+"</div>" +
-            "<div> Order: " +order+"</div>" +
-            "<div> Phylum: " +phylum+"</div>" +
-            "<div> Information: " +wiki_des+"</div>" +
-            "<div> Similar Images: " +simImage_string+"</div>" +
-            "</div>"
-        let xmlObject = {xml: xmlBlock, name: plant_name, sci_name:scientific_name,
+
+        var insert_id = "suggestion" + index
+        var insert_div = document.getElementById(insert_id)
+        insert_div.appendChild(card)
+
+        let plant_Object = {name: plant_name, sci_name:scientific_name,
             class:plant_class, family:family, genus:genus,
             kingdom:kingdom, order:order, phylum:phylum,
             info:wiki_des, img:uploadImage, uid:userId}
-        return xmlObject;
+        return plant_Object;
     }
 
 
     useEffect(()=>{
-        if(suggestArray !=[] && isPlant) {
-            document.getElementById("loadingimage").style.display = "none"
-            document.getElementById("addfavbutton").style.display = "block"
-            setFavButton('Add to Collection')
+        if(suggestArray != [] && isPlant) {
             for (let i = 0; i < suggestArray.length; i++) {
                 if (i == 0){
                     const parseObj = parseXmlSuggestion(suggestArray[i], i,userId);
-                    document.getElementById("suggestion1").innerHTML = parseObj.xml;
+                    console.log("plant obj",parseObj)
                     document.getElementById("isplant").innerHTML = 'It looks like ' + parseObj.name
                     setFavObject(parseObj);
                 }
                 else if (i == 1)
-                    document.getElementById("suggestion2").innerHTML = parseXmlSuggestion(suggestArray[i], i,userId).xml
+                    parseXmlSuggestion(suggestArray[i], i,userId)
                 else if (i == 2)
-                    document.getElementById("suggestion3").innerHTML = parseXmlSuggestion(suggestArray[i], i,userId).xml
+                    parseXmlSuggestion(suggestArray[i], i,userId)
             }
-
 
         }
         else if(identifyData != null){
@@ -545,6 +687,7 @@ const Main = () => {
         console.log("clicked favButton", favButton)
         if(favButton == 'Add to Collection'){
 
+
             console.log("uid state is", userId)
             const uid = userId
             console.log("user id is ",uid)
@@ -554,7 +697,8 @@ const Main = () => {
             else{
                 const obj = favObject
                 console.log("add favObj", favObject)
-
+                document.getElementById("addfavbutton").style.display = "none"
+                document.getElementById("incollectionbutton").style.display = "block"
                 setFavButton('In Collection');
                 obj.uid = uid
                 checkInsertExistFav(obj);
@@ -566,13 +710,15 @@ const Main = () => {
             console.log("uid is", uid)
             if (uid == ''){
                 alert("Log in to keep a collection")
-                document.getElementById("addfavbutton").children[0].variant = "outlined"
                 setFavButton('Add to Collection')
+                document.getElementById("incollectionbutton").style.display = ""
             }
             else{
+                document.getElementById("addfavbutton").style.display = "block"
+                document.getElementById("incollectionbutton").style.display = "none"
                 const obj = favObject
-                document.getElementById("addfavbutton").children[0].variant = "outlined"
                 setFavButton('Add to Collection')
+                document.getElementById("incollectionbutton")
                 removeFav(obj);
             }
 
@@ -658,15 +804,12 @@ const Main = () => {
     }, [wikiSearch])
 
 
-    const handleLogout2 = () => {
-
-    }
 
 
 //                                                              DEFAULT RENDER HERE
     useEffect(() => {
-
         if(main_username != null) {
+            console.log("in main")
             document.getElementById('loginname').innerHTML = "Welcome back, " + main_username
             document.getElementById('loginemail').innerHTML = "Email: "+main_email
             document.getElementById('facebookbutton').style.display = "none"
@@ -675,6 +818,9 @@ const Main = () => {
             document.getElementById('usercollection').style.display = "block"
             document.getElementById('userquiz').style.display = "block"
             document.getElementById('logoutController').style.display = "none"
+            document.getElementById('incollectionbutton').style.display = "none"
+
+            setUserId(main_id)
             setUserName(main_username)
             setUserEmail(main_email)
             setLoginType(login_type)
@@ -685,7 +831,9 @@ const Main = () => {
         var x = document.getElementById('file')
         var y = document.getElementById('loadingimage')
         var z = document.getElementById('addfavbutton')
-        var a = document.getElementById('logoutbutton')
+            document.getElementById('incollectionbutton').style.display = "none"
+
+            var a = document.getElementById('logoutbutton')
 
             a.style.display = "none"
         w.style.display = "none"
@@ -733,7 +881,7 @@ const Main = () => {
 
                     <div id  = "usercollection">
                         <Button size ='small' color = 'primary_green' variant="contained"  sx={{m:2}}
-                                startIcon = {<AppsIcon/>} onClick = {() => navigate('/my_collection/'+userName+'&' + userEmail +'&' +loginType)}>
+                                startIcon = {<AppsIcon/>} onClick = {() => navigate('/my_collection/'+userId+'&'+userName+'&' + userEmail +'&' +loginType)}>
                             My Collection
                         </Button>
                     </div>
@@ -796,7 +944,7 @@ const Main = () => {
                                 onClick={() => document.getElementById('file').click()}>Choose File</Button>
 
                         <input id = 'file' type = "file"  name = "image" onChange={onFileChange}></input>
-                        &nbsp;&nbsp;{fileName}&nbsp;&nbsp;
+                        &nbsp;{fileName}&nbsp;
                         <Button size ='small' color = 'primary_green' variant="contained" sx = {{m:2}}
                                 startIcon={<UploadFileIcon/>} onClick = {submitFileData}>Identify</Button>
                     </div>
@@ -806,17 +954,20 @@ const Main = () => {
                     <h2 id = "isplant"></h2>
                     <div id = "addfavbutton">
                         <Button size ='small' color = 'primary_green' variant="outlined" sx = {{m:2}} startIcon={<GradeIcon/>} onClick={handleFavorite}>
-                            {favButton}
+                            Add to Collection
                         </Button>
                     </div>
-
-                    <Stack direction = 'row' spacing = {1}>
-                        <div id="suggestion1"></div>
-                        <div id="suggestion2"></div>
-                        <div id="suggestion3"></div>
-                    </Stack>
+                    <div id = "incollectionbutton">
+                        <Button size ='small' color = 'primary_green' variant="contained" sx = {{m:2}} startIcon={<GradeIcon/>} onClick={handleFavorite}>
+                            In Collection
+                        </Button>
+                    </div>
                 </div>
-
+                <Stack direction = 'row' spacing = {1}>
+                    <div id="suggestion1" ></div>
+                    <div id="suggestion2" ></div>
+                    <div id="suggestion3" ></div>
+                </Stack>
 
 
 

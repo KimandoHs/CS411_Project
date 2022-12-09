@@ -123,31 +123,71 @@
     float: left
 }
 
-.box0 {
-    width: 19%;
-    float:left
+
+.right{
+    float:right
 }
-.box1 {
-    width: 19%;
-    float:left
-}
-.box2 {
-    width: 19%;
+.left{
     float:left
 }
 
-.box3 {
-    width: 19%;
-    float:left
-}
-
-.box4 {
-    width: 19%;
-    float:left
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 310px;
+    float:left;
+    margin: 30px
 }
 
 
 
+.card:hover {
+    box-shadow: 0 12px 20px 0 rgba(0,0,0,0.5);
+}
+
+.container {
+    padding: 2px 16px 16px 16px;
+}
+
+.containerinfo {
+    font-size: 12px;
+}
+
+.collectionid {
+    font-size: 20px;
+    margin-top: 30px;
+    margin-left: 30px;
+    font-family: 'Josefin Sans', sans-serif;
+}
+.backhomebutton{
+    margin-top:20px;
+}
+
+.suggestionCard {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 400px;
+    float:left;
+    margin: 30px
+}
+.suggestionCard:hover {
+    box-shadow: 0 12px 20px 0 rgba(0,0,0,0.5);
+}
+.suggestionContainer {
+    padding: 2px 16px 16px 16px;
+}
+
+.suggestcontainerinfo {
+    font-size: 12px;
+}
+
+.leftText {
+    text-align: left;
+}
+
+.rightText {
+    text-align: right;
+}
 
 /* ===========================
    ====== Media Query for Search Box ======
