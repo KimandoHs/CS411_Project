@@ -24,7 +24,6 @@
 }
 
 .search {
-=======
     text-align: center;
     background-color: #b9ff8a;
     min-height: 100vh;
@@ -32,7 +31,6 @@
 
 .search
 {
->>>>>>> Stashed changes
     width: 60%;
     transform: translateX(33.33%);
     border: 2px solid #3bd9b9;
