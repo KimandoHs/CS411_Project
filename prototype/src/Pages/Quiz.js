@@ -127,17 +127,17 @@ const Quiz = () => {
             </div>
             <br></br>
             <div className = "center2" style={{backgroundColor: '#FAF9F6', width: "300px", borderRadius:'5%'}}>
-                <img id="imageBox" style={{borderRadius: '5%'}} src="https://watchandlearn.scholastic.com/content/dam/classroom-magazines/watchandlearn/videos/animals-and-plants/plants/what-are-plants-/What-Are-Plants.jpg" width={300} height={300} />
+                <img id="imageBox" style={{borderRadius: '5%'}} src="https://media.mixbook.com/images/templates/97_1_0_m.jpg" width={300} height={300} />
                 <br></br>
                 What plant is this?
                 <br></br>
                 <br></br>
                 <div style={{textAlign: "left", width:"100%"}} className="center2">
                     <form>
-                        <input type="radio" id={"choiceBox1"} name="choice"/> <text id = "choice1">Random plant</text> <br></br>
-                        <input type="radio" id={"choiceBox2"} name="choice"/> <text id = "choice2">Lily</text> <br></br>
-                        <input type="radio" id={"choiceBox3"} name="choice"/> <text id = "choice3">Dandelion</text> <br></br>
-                        <input type="radio" id={"choiceBox4"} name="choice"/> <text id = "choice4">Sunflower</text> <br></br>
+                        <input type="radio" id={"choiceBox1"} name="choice"/> <text id = "choice1"></text> <br></br>
+                        <input type="radio" id={"choiceBox2"} name="choice"/> <text id = "choice2"></text> <br></br>
+                        <input type="radio" id={"choiceBox3"} name="choice"/> <text id = "choice3"></text> <br></br>
+                        <input type="radio" id={"choiceBox4"} name="choice"/> <text id = "choice4"></text> <br></br>
                     </form>
                 </div>
                 <ThemeProvider theme={theme}>
