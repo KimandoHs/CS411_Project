@@ -127,7 +127,7 @@ const Quiz = () => {
             </div>
             <br></br>
             <div className = "center2" style={{backgroundColor: '#FAF9F6', width: "300px", borderRadius:'5%'}}>
-                <img id="imageBox" style={{borderRadius: '5%'}} src="https://media.mixbook.com/images/templates/97_1_0_m.jpg" width={300} height={300} />
+                <img id="imageBox" style={{borderRadius: '5%', objectFit: 'cover'}} src="https://media.mixbook.com/images/templates/97_1_0_m.jpg" width={300} height={300} />
                 <br></br>
                 What plant is this?
                 <br></br>

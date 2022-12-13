@@ -82,9 +82,6 @@ app.post('/identify', (req, res) => {
     })
 })
 
-
-
-
 app.post('/check_fav', (req,res) => {
     const obj = req.body.obj;
     const uid = req.body.uid;
@@ -139,7 +136,7 @@ app.post('/get_plants', (req,res) => {
     const email = req.body.email
 
 
-    const sql = "SELECT * FROM plant_collection, plant_image WHERE plant_collection.plant_name = plant_image.plant_name";
+    const sql = "SELECT * FROM plant_image";
 
 
     db.query(sql, [email], (err, result) => {

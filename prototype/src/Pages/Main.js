@@ -786,6 +786,7 @@ const Main = () => {
     const [wikiIntro, setWikiIntro] = useState('');
     const [wikiImage, setWikiImage] = useState('');
     const [wikiTitle, setWikiTitle] = useState('');
+    const [getDataInfo, setDataInfo] = useState('');
 
 
     const parseWikiPage = (text) => {
@@ -829,7 +830,7 @@ const Main = () => {
     }
 
     useEffect(() =>{
-        if(wikiIntro != '' && wikiImage != ''&& wikiTitle != '') {
+        if((wikiIntro != '' || wikiImage != '')&& wikiTitle != '') {
             console.log("title: ", wikiTitle)
             console.log("imageurl: ", wikiImage)
             console.log("intro: ", wikiIntro)
@@ -842,28 +843,65 @@ const Main = () => {
             var text = document.createTextNode(wikiIntro)
             span.appendChild(text)
             div.appendChild(span)
-            var img = document.createElement("img")
-            img.src = wikiImage
-            img.alt = "Avatar"
-            img.style = "margin-top:50px;width: 500px; height: 500px; object-fit: cover"
-
             var y = document.getElementById('wikitext')
             y.className = "wikicard"
+
+            if(!wikiImage == '') {
+                var img = document.createElement("img")
+                img.src = wikiImage
+                img.alt = "Avatar"
+                img.style = "margin-top:50px;width: 500px; height: 500px; object-fit: cover"
+                y.appendChild(img)
+            }
             y.appendChild(div)
             y.appendChild(span)
-            y.appendChild(img)
+
+            if (getDataInfo != '') {
+                var temp = document.createElement("div")
+                var water = document.createElement("div");
+                temp.style="text-align:left";
+                water.style = "text-align:left";
+                let climate = 'Climate: ' + getDataInfo[0].climate + ", ";
+                let tempmin = 'Minimum Temperature: ' + getDataInfo[0].tempmin.fahrenheit + " degrees fahrenheit, ";
+                let tempmax = 'Maximum Temperature: ' + getDataInfo[0].tempmax.fahrenheit + " degrees fahrenheit" ;
+                let watering = 'Water Tips: ' + getDataInfo[0].watering;
+                var text2= document.createTextNode(climate);
+                var text3 = document.createTextNode(tempmin);
+                var text4 = document.createTextNode(tempmax);
+                var text5 = document.createTextNode(watering);
+                temp.appendChild(text2)
+                temp.appendChild(text3)
+                temp.appendChild(text4)
+                water.appendChild(text5);
+                y.appendChild(temp)
+                y.appendChild(water);
+            }
+
         }
 
     },[wikiIntro, wikiImage, wikiTitle])
 
-    const handleWikiSubmit = (e) => {
-        e.preventDefault();
-        removeAllChildNodes(document.getElementById("wikitext"))
-        parseWikiPage(wikiSearch);
+    const getData = (text) => {
+        const options = {
+            method: 'GET',
+            url: 'http://localhost:8000/results',
+            params: {type: 'common', name: text.replace(/\s+/g, '')},
+        };
+
+        axios.request(options).then((response) => {
+            console.log(response.data)
+            setDataInfo(response.data)
+            parseWikiPage(wikiSearch);
+        }).catch((error) => {
+            console.error(error)
+        })
     }
 
-
-
+    const handleWikiSubmit = (e) => {
+        e.preventDefault();
+        removeAllChildNodes(document.getElementById("wikitext"));
+        getData(wikiSearch);
+    }
 
     useEffect(()=>{
 
@@ -1057,7 +1095,6 @@ const Main = () => {
                     <div id = "wikipage" className="center2">
                         <div id = "wikitext"></div>
                     </div>
-
 
 
                 </ThemeProvider>
