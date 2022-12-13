@@ -6,9 +6,13 @@ Jack (Haotian) Chen - htc0511@bu.edu
 James Ngo - jameshn@bu.edu
 Cristobal Newman - cjavier@bu.edu
 
-Brief Summary: Repository for the CS411 Group Project, fall of 2022. Lab Section A3. 
+Brief Summary: Repository for the CS411 Group Project, fall of 2022. Lab Section A3. Project is about plant information. 
+Supports numerous features including: 
+- Plant lookup by image or text. Plant search by image will return suggestions on which plant it could be, followed by a likelihood. Plant search by image will allow you to add it to your collection. Plant search by name will bring up information about that plant.
+- Collection system. Add your favorite plants to your collection!
+- Quiz yourself. Take a quiz on various plants to see if you know their names! Quiz includes all plants in the database. 
 
-Ideas:
+Ideas 9/10/2022:
 - SpaceAPIs
 - Chess API. Users will be able to play moves on a board and be shown games in that position that have been played by prominent players. 
 - Weather API that tells you what clothes you can buy nearby for that weather
