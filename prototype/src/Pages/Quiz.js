@@ -21,6 +21,7 @@ const theme = createTheme({
     },
 });
 
+//set initial values for scores
 const Quiz = () => {
     let navigate = useNavigate()
     let {userid, username, useremail, login_type} = useParams()
@@ -30,11 +31,14 @@ const Quiz = () => {
     const [answerQuestion, setAnswer] = useState("")
 
     const handleQuizSubmit = (e) => {
-        e.preventDefault();
+        //don't refresh on submit
+        e.preventDefault(); 
         submitAnswer(answerQuestion);
-        getCollectionObj();
+        //load new question on submission
+        getCollectionObj(); 
     }
-
+    
+    //check if the user's answer was correct
     const submitAnswer = (name) => {
         let radios = document.getElementsByName('choice');
         let val= "";
@@ -45,23 +49,30 @@ const Quiz = () => {
                 break;
             }
         }
+        //no selection
         if (val == "" ) {
             document.getElementById('scoreText').innerHTML = score + "/" + (questions);
             document.getElementById('result').innerHTML ="Please choose an answer";
-        } else if (val == name) {
+        }
+        //correct answer
+        else if (val == name) {
             setScore(prevScore => score + 1);
             setQuestions(prevQuestions => questions + 1)
             document.getElementById('scoreText').innerHTML = (score + 1) + "/" + (questions + 1);
             document.getElementById('result').innerHTML = name + " was the correct answer. Good job!";
-        } else {
+        }
+        //wrong answer
+        else {
             setQuestions(prevQuestions => questions + 1)
             document.getElementById('scoreText').innerHTML = score + "/" + (questions + 1);
             document.getElementById('result').innerHTML =  "Unfortunately, that was not the correct answer.";
         }
     };
-
+    
+    //get user's collection
     const getCollectionObj = (e) => {
         e.preventDefault();
+        //Get results from backend, will query user's collection
         axios.post('http://localhost:8000/get_plants',
             { email:useremail})
             .then((re) => {
@@ -70,17 +81,22 @@ const Quiz = () => {
             })
             .catch(err=>console.log(err))
     }
-
+    
+    //populates quiz with new question on a random plant from user's collection
     const modifyContent = (array) => {
+        //get random plant and set correct answer to that plant
         let randomPlant = Math.floor(Math.random() * array.length);
         let randomChoice = Math.floor(Math.random() * 4) + 1
-        //alert(randomChoice);
         let answer = document.getElementById(`choice${randomChoice}`);
         answer.innerHTML = array[randomPlant].plant_name;
         document.getElementById(`choiceBox${randomChoice}`).value = array[randomPlant].plant_name;
+        
+        //set image to new plant
         let imageSrc = document.getElementById('imageBox');
         imageSrc.src= array[randomPlant].image_url;
         setAnswer(prevAnswer => array[randomPlant].plant_name)
+        
+        // Set other 3 answers to random plants that are different from correct answer
         const arr = [];
         arr.push(array[randomPlant].plant_name);
         for (let i = 1; i < 5; i++) {
@@ -92,10 +108,6 @@ const Quiz = () => {
                 arr.push(array[randomNum].plant_name);
                 let choice = document.getElementById(`choice${i}`);
                 choice.innerHTML = array[randomNum].plant_name;
-
-                //let imageSrc = document.getElementById('imageBox');
-                //imageSrc.src= rowObj.image_url;
-                //document.getElementById(`choiceBox${i + 1}`).value = rowObj.plant_name;
             }
 
         }
@@ -110,7 +122,8 @@ const Quiz = () => {
             })
             .catch(err=>console.log(err))
     }, [])
-
+    
+    //page contents
     return (
         <div id = 'Quiz' className="center3">
             <br></br>
