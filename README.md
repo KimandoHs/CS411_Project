@@ -12,6 +12,8 @@ Supports numerous features including:
 - Collection system. Add your favorite plants to your collection!
 - Quiz yourself. Take a quiz on various plants to see if you know their names! Quiz includes all plants in the database. 
 
+You can find a demo of our project here: https://www.youtube.com/watch?v=5pWJjMG10c8
+
 Ideas 9/10/2022:
 - SpaceAPIs
 - Chess API. Users will be able to play moves on a board and be shown games in that position that have been played by prominent players. 
